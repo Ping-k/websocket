@@ -1,0 +1,93 @@
+<!--
+ * @Descripttion: 
+ * @version: v0.0.1
+ * @Author: ZhouYanPing
+ * @Date: 2022-09-08 13:22:44
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2023-05-26 13:23:17
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Websocket-消息2</title>
+    <script>
+        let port = 5001;
+        window.onload = function () {
+            // 1、创建websocket
+            var ws = new WebSocket('ws://localhost:' + port);
+            // 2、事件监听
+            // 打开连接
+            ws.onopen = () => {
+                console.log('连接成功');
+            };
+            // 连接异常
+            ws.onerror = (err) => {
+                console.log('连接失败:', err);
+            };
+            // 关闭连接
+            ws.onclose = (close) => {
+                console.log('连接关闭:', close);
+            };
+            // 监听消息
+            ws.onmessage = (event) => {
+                console.log('通信: ', event);
+                let info = JSON.parse(event?.data);
+                // 显示消息
+                document.getElementById('content').innerHTML += `<br/>发送人：${info.id}<br/>消息：${info.msg}`;
+            };
+
+            // 发送消息
+            document.querySelector("#sendMsg").addEventListener('click', () => {
+                let msg = document.getElementById('txt').value;
+                let msgToJson = JSON.stringify({ msg, id: 'user2' });
+                ws.send(msgToJson);
+            })
+            // 关闭websocket
+            document.querySelector("#closeWs").addEventListener('click', () => {
+                ws.close();
+            })
+            /**
+             * 重新连接
+             * websocket本身没有重连机制，只能重新创建连接
+             */
+            document.querySelector("#openWs").addEventListener('click', () => {
+                // 1、创建websocket
+                ws = new WebSocket('ws://localhost:' + port);
+                // 2、事件监听
+                // 打开连接
+                ws.onopen = () => {
+                    console.log('连接成功');
+                };
+                // 连接异常
+                ws.onerror = (err) => {
+                    console.log('连接失败:', err);
+                };
+                // 关闭连接
+                ws.onclose = (close) => {
+                    console.log('连接关闭:', close);
+                };
+                // 监听消息
+                ws.onmessage = (event) => {
+                    console.log('通信: ', event);
+                    let info = JSON.parse(event?.data);
+                    // 显示消息
+                    document.getElementById('content').innerHTML += `<br/>发送人：${info.id}<br/>消息：${info.msg}`;
+                };
+            })
+        }
+    </script>
+</head>
+
+<body>
+    <input type="text" id="txt" value="hello ws2">
+    <button id="sendMsg">发送</button>
+    <button id="closeWs">关闭</button>
+    <button id="openWs">重新连接</button>
+    <div id="content"></div>
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+{
+  "name": "websocket",
+  "version": "1.0.0",
+  "description": "websocket",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "ws1": "node ws-server1.js",
+    "ws2": "node ws-server2.js",
+    "start": "node app.js"
+  },
+  "keywords": [
+    "pingk"
+  ],
+  "author": "pingk",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1",
+    "express-generator": "^4.16.1",
+    "nodejs-websocket": "^1.7.2",
+    "ws": "^8.8.1"
+  }
+}
