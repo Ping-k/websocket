@@ -6,12 +6,13 @@ npm install
 
 2、启动服务
 ----
-``
+```
 yarn ws1
 or
 yarn ws2
+
 yarn start
-``
+```
 
 3、使用
 ----
